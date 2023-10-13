@@ -1074,7 +1074,7 @@ def parse_sections(vmlinux):
     section_idx = 0
     while True:
         try:
-            line = it.next()
+            line =next(it)
         except StopIteration:
             break
 
