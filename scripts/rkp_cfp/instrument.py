@@ -1084,16 +1084,17 @@ def parse_sections(vmlinux):
             next(it)
             continue
 
-        m = re.search((
-            # [Nr] Name              Type             Address           Offset
-            r'^\s*(?P<number>\d+)'
-            r'\s+(?P<name>[^\s]*)'
-            r'\s+(?P<size>{hex_re})'
-            r'\s+(?P<address>{hex_re})'
-            r'\s+(?P<lma>{hex_re})'
-            r'\s+(?P<offset>{hex_re})'
-            r'\s+(?P<align>[^\s]+)'
-            ).format(hex_re=hex_re), line)
+        m = re.search(
+            (
+                # [Nr] Name              Type             Address           Offset
+                rb'^\s*(?P<number>\d+)'
+                rb'\s+(?P<name>[^\s]*)'
+                rb'\s+(?P<size>{hex_re})'
+                rb'\s+(?P<address>{hex_re})'
+                rb'\s+(?P<lma>{hex_re})'
+                rb'\s+(?P<offset>{hex_re})'
+                rb'\s+(?P<align>[^\s]+)'
+            ).format(hex_re=hex_re.encode()), line)
         if m:
             section = {}
 
@@ -1107,7 +1108,7 @@ def parse_sections(vmlinux):
                 [int, ['number']],
                 [parse_power, ['align']]]))
 
-            line = it.next()
+            line = next(it)
             # CONTENTS, ALLOC, LOAD, READONLY, CODE
             m = re.search((
             r'\s+(?P<type>.*)'
