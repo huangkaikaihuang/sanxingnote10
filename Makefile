@@ -741,18 +741,19 @@ endif
 # until after .config has been reprocessed, in the prepare-compiler-check
 # target.
 ifdef CONFIG_CC_STACKPROTECTOR_REGULAR
-  stackp-flag := -fstack-protector
+  stackp-flag :=
   stackp-name := REGULAR
 else
 ifdef CONFIG_CC_STACKPROTECTOR_STRONG
-  stackp-flag := -fstack-protector-strong
+  stackp-flag :=
   stackp-name := STRONG
 else
-  # Force off for distro compilers that enable stack protector by default.
+  # Disable stack protector flag for all compilers.
   stackp-flag := $(call cc-option, -fno-stack-protector)
 endif
 endif
 # Find arch-specific stack protector compiler sanity-checking script.
+
 ifdef CONFIG_CC_STACKPROTECTOR
   stackp-path := $(srctree)/scripts/gcc-$(SRCARCH)_$(BITS)-has-stack-protector.sh
   stackp-check := $(wildcard $(stackp-path))
