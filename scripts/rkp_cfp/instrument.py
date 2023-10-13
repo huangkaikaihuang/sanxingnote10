@@ -1078,10 +1078,10 @@ def parse_sections(vmlinux):
         except StopIteration:
             break
 
-        m = re.search(r'^Sections:', line)
+        m = re.search(r'^Sections:', line.decode())
         if m:
             # first section
-            it.next()
+            next(it)
             continue
 
         m = re.search((
