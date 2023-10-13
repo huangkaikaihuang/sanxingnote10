@@ -1094,7 +1094,7 @@ def parse_sections(vmlinux):
                 rb'\s+(?P<lma>{hex_re})'
                 rb'\s+(?P<offset>{hex_re})'
                 rb'\s+(?P<align>[^\s]+)'
-            ).decode().format(hex_re=hex_re.decode()), line)
+            ).format(hex_re=hex_re.encode()), line)
         if m:
             section = {}
 
