@@ -1029,7 +1029,7 @@ def parse_nm(vmlinux, symbols=None):
     last_symbol = None
     last_name = None
     for line in f:
-        m = re.search(NM_RE, line.decode())
+        m = re.search(NM_RE, line)
         if m:
             if last_symbol is not None and ( symbols is None or last_name in symbols ):
                 last_symbol[NE_SIZE] = ( _int(m.group('addr')) - _int(last_symbol[NE_ADDR]) ) / BYTES_PER_INSN \
@@ -1064,7 +1064,6 @@ def parse_sections(vmlinux):
       ...
     }
     """
-    print("看看会不会进入死循环")
     proc = subprocess.Popen([OBJDUMP, '--section-headers', vmlinux], stdout=subprocess.PIPE)
     f = each_procline(proc)
     d = {
@@ -1073,22 +1072,16 @@ def parse_sections(vmlinux):
     }
     it = iter(f)
     section_idx = 0
-    a=1
     while True:
         try:
-            line = it.__next__().decode()
-            print(line)
-            print(type(line))
-            a=a+1
-            if a>1000:
-                break
+            line = it.next()
         except StopIteration:
             break
 
         m = re.search(r'^Sections:', line)
         if m:
             # first section
-            it.__next__().decode()  # Skip the next line
+            it.next()
             continue
 
         m = re.search((
@@ -1114,10 +1107,7 @@ def parse_sections(vmlinux):
                 [int, ['number']],
                 [parse_power, ['align']]]))
 
-
-            line = it.__next__().decode()
-            print("caonima")
-            print(line)
+            line = it.next()
             # CONTENTS, ALLOC, LOAD, READONLY, CODE
             m = re.search((
             r'\s+(?P<type>.*)'
@@ -1313,7 +1303,7 @@ if common.run_from_ipython():
     #import pdb; pdb.set_trace()
     o = load_and_cache_objdump(sample_vmlinux_file, config_file=sample_config_file)
 
-
+    print "in function common.run_from_ipython()"
 
     def _instrument(func=None, skip=common.skip, validate=True, threads=DEFAULT_THREADS):
         instrument(o, func=func, skip=common.skip, skip_stp=common.skip_stp, skip_asm=common.skip_asm, threads=threads)
