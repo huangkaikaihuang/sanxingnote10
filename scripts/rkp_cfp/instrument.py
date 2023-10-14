@@ -1074,14 +1074,14 @@ def parse_sections(vmlinux):
     section_idx = 0
     while True:
         try:
-            line = it.__next__().decode()
+            line = it.__next__()
         except StopIteration:
             break
 
         m = re.search(r'^Sections:', line)
         if m:
             # first section
-            it.__next__().decode()  # Skip the next line
+            it.__next__().encode()  # Skip the next line
             continue
 
         m = re.search((
@@ -1093,7 +1093,7 @@ def parse_sections(vmlinux):
             r'\s+(?P<lma>{hex_re})'
             r'\s+(?P<offset>{hex_re})'
             r'\s+(?P<align>[^\s]+)'
-            ).format(hex_re=hex_re), line.decode())
+            ).format(hex_re=hex_re), line.encode())
         if m:
             section = {}
 
