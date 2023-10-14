@@ -1109,14 +1109,20 @@ def parse_sections(vmlinux):
                 [int, ['number']],
                 [parse_power, ['align']]]))
 
-            line = it.__next__()
+
+            line = it.__next__().decode()
             # CONTENTS, ALLOC, LOAD, READONLY, CODE
             m = re.search((
             r'\s+(?P<type>.*)'
-            ), line, re.VERBOSE)
+            ).format(hex_re=hex_re), line)
             section.update(m.groupdict())
 
             d['sections'].append(section)
+
+
+
+
+
 
     return d
 
