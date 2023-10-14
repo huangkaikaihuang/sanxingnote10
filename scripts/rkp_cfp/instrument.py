@@ -1080,7 +1080,7 @@ def parse_sections(vmlinux):
             print(line)
             print(type(line))
             a=a+1
-            if a>5000:
+            if a>1000:
                 break
         except StopIteration:
             break
