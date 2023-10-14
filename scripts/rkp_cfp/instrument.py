@@ -1029,7 +1029,7 @@ def parse_nm(vmlinux, symbols=None):
     last_symbol = None
     last_name = None
     for line in f:
-        m = re.search(NM_RE, line)
+        m = re.search(NM_RE, line.decode())
         if m:
             if last_symbol is not None and ( symbols is None or last_name in symbols ):
                 last_symbol[NE_SIZE] = ( _int(m.group('addr')) - _int(last_symbol[NE_ADDR]) ) / BYTES_PER_INSN \
@@ -1080,7 +1080,7 @@ def parse_sections(vmlinux):
             print(line)
             print(type(line))
             a=a+1
-            if a>20000:
+            if a>5000:
                 break
         except StopIteration:
             break
