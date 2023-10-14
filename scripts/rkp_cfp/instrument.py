@@ -1064,6 +1064,7 @@ def parse_sections(vmlinux):
       ...
     }
     """
+    print("看看会不会进入死循环")
     proc = subprocess.Popen([OBJDUMP, '--section-headers', vmlinux], stdout=subprocess.PIPE)
     f = each_procline(proc)
     d = {
@@ -1072,11 +1073,15 @@ def parse_sections(vmlinux):
     }
     it = iter(f)
     section_idx = 0
+    a=1
     while True:
         try:
             line = it.__next__().decode()
             print(line)
             print(type(line))
+            a=a+1
+            if a>20000:
+                break
         except StopIteration:
             break
 
@@ -1120,11 +1125,6 @@ def parse_sections(vmlinux):
             section.update(m.groupdict())
 
             d['sections'].append(section)
-
-
-
-
-
 
     return d
 
