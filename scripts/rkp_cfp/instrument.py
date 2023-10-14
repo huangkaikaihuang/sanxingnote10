@@ -1111,6 +1111,8 @@ def parse_sections(vmlinux):
 
 
             line = it.__next__().decode()
+            print("caonima")
+            print(line)
             # CONTENTS, ALLOC, LOAD, READONLY, CODE
             m = re.search((
             r'\s+(?P<type>.*)'
