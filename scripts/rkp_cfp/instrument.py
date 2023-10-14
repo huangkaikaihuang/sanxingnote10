@@ -1113,7 +1113,7 @@ def parse_sections(vmlinux):
             # CONTENTS, ALLOC, LOAD, READONLY, CODE
             m = re.search((
             r'\s+(?P<type>.*)'
-            ).format(hex_re=hex_re), line)
+            ), line, re.VERBOSE)
             section.update(m.groupdict())
 
             d['sections'].append(section)
